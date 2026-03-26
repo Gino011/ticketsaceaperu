@@ -20,8 +20,8 @@ loginForm.addEventListener('submit', async (e) => {
       // --- PASO CRUCIAL PARA ACEAPERÚ ---
       // Guardamos el ID y los datos para usarlos en el formulario
       localStorage.setItem('id_usuario', data.id_usuario);
-      localStorage.setItem('nombres', data.nombres);
-      localStorage.setItem('correo', data.correo);
+      localStorage.setItem('usuario_nombres', data.user.nombres);
+      localStorage.setItem('usuario_correo', data.user.correo);
 
       // Redirección
       window.location.href = '/src/pages/formulario.html'; 

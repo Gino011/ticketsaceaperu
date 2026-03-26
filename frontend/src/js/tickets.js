@@ -1,38 +1,37 @@
-// Asegúrate de que esto sea lo único que maneje la carga de datos
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Referencias a los inputs del HTML
-    const nombreInput = document.getElementById('nombreUsuario');
-    const correoEmisorInput = document.getElementById('correoUser');
-    const correoDestinoInput = document.getElementById('correo_destino');
-    const fechaHoraInput = document.getElementById('fechaHora');
+    // 1. Referencias a los inputs del HTML (IDs exactos de tu HTML)
+    const inputNombre = document.getElementById('nombreUsuario');
+    const inputCorreoEmisor = document.getElementById('correoUser');
+    const inputCorreoDestino = document.getElementById('correo_destino');
+    const inputFechaHora = document.getElementById('fechaHora');
 
     // 2. Función para cargar datos de la sesión
     const cargarDatosSesion = () => {
-        // Obtenemos los datos tal cual se guardaron en el Login
-        const nombre = localStorage.getItem('nombres');
-        const correo = localStorage.getItem('correo');
+        // IMPORTANTE: Usa los mismos nombres que guardaste en el Login
+        const nombre = localStorage.getItem('usuario_nombres');
+        const correo = localStorage.getItem('usuario_correo');
 
-        console.log("Intentando cargar:", { nombre, correo }); // Debug en consola
+        console.log("Datos recuperados:", { nombre, correo });
 
-        if (nombreInput) {
-            nombreInput.value = nombre ? nombre : 'Usuario no identificado';
+        if (inputNombre) {
+            inputNombre.value = nombre ? nombre : 'Usuario no identificado';
         }
-        if (correoEmisorInput) {
-            correoEmisorInput.value = correo ? correo : 'soporte@aceaperu.com.pe';
+        if (inputCorreoEmisor) {
+            inputCorreoEmisor.value = correo ? correo : 'soporte@aceaperu.com.pe';
         }
-        // El correo destino que pidió tu jefe
-        if (correoDestinoInput) {
-            correoDestinoInput.value = 'ti@aceaperu.com.pe';
+        // Correo destino fijo
+        if (inputCorreoDestino) {
+            inputCorreoDestino.value = 'ti@aceaperu.com.pe';
         }
     };
 
-    // 3. Función del Reloj (Perú)
+    // 3. Función del Reloj (Perú) - ESTA ES LA QUE HACE QUE CORRA EL TIEMPO
     const actualizarReloj = () => {
-        if (!fechaHoraInput) return;
+        if (!inputFechaHora) return;
         
         const ahora = new Date();
-        const opciones = {
+        const formatoPeru = ahora.toLocaleString('es-PE', {
             timeZone: 'America/Lima',
             day: '2-digit',
             month: '2-digit',
@@ -41,12 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: '2-digit',
             second: '2-digit',
             hour12: true
-        };
-        fechaHoraInput.value = ahora.toLocaleString('es-PE', opciones);
+        });
+        
+        // Escribimos la hora actual en el input
+        inputFechaHora.value = formatoPeru.replace(',', ''); 
     };
 
-    // Ejecutar funciones
+    // --- EJECUCIÓN ---
+    
+    // Cargamos los nombres y correos una sola vez
     cargarDatosSesion();
-    setInterval(actualizarReloj, 1000);
+
+    // Iniciamos el reloj inmediatamente
     actualizarReloj();
+
+    // Hacemos que se actualice cada 1 segundo (1000ms)
+    setInterval(actualizarReloj, 1000);
 });
