@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Tickets - AceaPerú</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/formulario.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  
+  <header class="top-bar">
+    <div class="logo-area">
+      <img src="/src/assets/logoaceaperu.png" alt="Logo AceaPerú">
+      <div class="divider"></div>
+      <span>Portal de Soporte T.I</span>
+    </div>
+    <button class="logout-link" onclick="window.location.href='/'">
+      <i data-lucide="log-out"></i> <span>Salir del Sistema</span>
+    </button>
+  </header>
+
+  <main class="content-area">
+    <div class="form-card">
+      <div class="form-header">
+        <div class="badge">Nuevo Ticket</div>
+        <h2><i data-lucide="file-text"></i> Registrar Incidencia</h2>
+        <p>Complete la información técnica detallada a continuación.</p>
+      </div>
+
+      <form id="ticketForm">
+        <div class="input-row">
+          <div class="field-group">
+            <label>Nombres del Usuario</label>
+            <div class="input-with-icon">
+              <i data-lucide="user"></i>
+              <input type="text" id="nombreUsuario" readonly class="readonly-input">
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Fecha y Hora (Sincronizada)</label>
+            <div class="input-with-icon">
+              <i data-lucide="clock"></i>
+              <input type="text" id="fechaHora" readonly class="readonly-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="field-group">
+            <label>Correo Emisor (Acea Perú)</label>
+            <div class="input-with-icon">
+              <i data-lucide="at-sign"></i>
+              <input type="email" id="correoUser" readonly class="readonly-input"   >
+            </div>
+          </div>
+          <div class="field-group">
+                <div class="field-group">
+                    <label>Departamento Destino</label>
+                    <div class="input-with-icon">
+                        <i data-lucide="shield-check"></i>
+                        <input type="email" id="correo_destino" readonly class="readonly-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field-group">
+          <label>Descripción de la Incidencia</label>
+          <div class="textarea-wrapper">
+            <textarea id="descripcion" rows="4" placeholder="Describa el error, mensaje del sistema o requerimiento..." required></textarea>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Evidencia Fotográfica</label>
+          <div class="file-upload" id="dropzone">
+            <input type="file" id="adjunto" accept="image/*" class="file-input">
+            <div class="file-custom" id="file-content">
+              <i data-lucide="camera"></i>
+              <span>Arrastre o haga clic para subir captura</span>
+              <p class="file-hint">Formatos: JPG, PNG • Máx 5MB</p>
+            </div>
+            <div id="preview-container" class="preview-hidden">
+                <img id="image-preview" src="" alt="Vista previa">
+                <button type="button" id="remove-img">Eliminar archivo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-center">
+          <button type="submit" id="btnRegistrar" class="btn-send">
+            <span>ENVIAR TICKET DE SOPORTE</span>
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+      </form>
+      <p id="ticket-msg"></p>
+    </div>
+  </main>
+
+  <script type="module" src="/src/js/tickets.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
