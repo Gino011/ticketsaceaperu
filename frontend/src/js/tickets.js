@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             inputNombre.value = nombre ? nombre : 'Usuario no identificado';
         }
         if (inputCorreoEmisor) {
-            inputCorreoEmisor.value = correo ? correo : 'soporte@aceaperu.com.pe';
+            inputCorreoEmisor.value = correo ? correo : 'soporte@aceaperu.com';
         }
         // Correo destino fijo
         if (inputCorreoDestino) {
-            inputCorreoDestino.value = 'ti@aceaperu.com.pe';
+            inputCorreoDestino.value = 'ti@aceaperu.com';
         }
     };
 
