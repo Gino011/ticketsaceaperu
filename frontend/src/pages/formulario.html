@@ -76,16 +76,15 @@
         <div class="field-group">
           <label>Evidencia Fotográfica</label>
           <div class="file-upload" id="dropzone">
-            <input type="file" id="adjunto" accept="image/*" class="file-input">
-            <div class="file-custom" id="file-content">
-              <i data-lucide="camera"></i>
-              <span>Arrastre o haga clic para subir captura</span>
-              <p class="file-hint">Formatos: JPG, PNG • Máx 5MB</p>
-            </div>
-            <div id="preview-container" class="preview-hidden">
-                <img id="image-preview" src="" alt="Vista previa">
-                <button type="button" id="remove-img">Eliminar archivo</button>
-            </div>
+              <input type="file" id="adjunto" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="file-input" multiple>
+              
+              <div class="file-custom" id="file-content">
+                  <i data-lucide="camera"></i>
+                  <span>Arrastre o haga clic para subir capturas</span>
+                  <p class="file-hint">JPG, PNG • Máx 5MB</p>
+              </div>
+
+              <div id="preview-container" class="preview-hidden"></div>
           </div>
         </div>
 

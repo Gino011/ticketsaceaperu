@@ -1,12 +1,21 @@
-# Ignorar las carpetas pesadas de librerías
+# Dependencias (NUNCA se suben a GitHub)
 node_modules/
 backend/node_modules/
 frontend/node_modules/
 
-# Ignorar archivos de configuración sensible (Base de datos)
+# Configuración sensible (Contraseñas de SQL)
 .env
 backend/.env
 
-# Archivos temporales de sistema
+# Archivos subidos por los usuarios
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs y temporales
+npm-debug.log*
 .DS_Store
 dist/
+
+# Editores
+.vscode/
+.idea/
