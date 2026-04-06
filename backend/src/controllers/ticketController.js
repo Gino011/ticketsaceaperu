@@ -1,20 +1,18 @@
 const Ticket = require('../models/ticketModel');
+const { sendTicketNotification } = require('../services/emailService'); // [NUEVO] Importamos el motor de correos
 
 const registrarTicket = async (req, res) => {
     try {
         console.log("Body recibido:", req.body);
-        // Ahora logueamos req.files (plural)
         console.log("Archivos recibidos:", req.files); 
 
         const id_usuario = req.body.id_usuario;
         const descripcion = req.body.descripcion;
+        const correoUsuario = req.body.correo_usuario; // [NUEVO] Asegúrate de que el frontend envíe este campo
 
         // --- LÓGICA PARA MÚLTIPLES ARCHIVOS ---
-        // req.files es el array que crea Multer cuando usas .array()
         let fotos_concatenadas = null;
-        
         if (req.files && req.files.length > 0) {
-            // Juntamos los nombres de todos los archivos: "123-foto1.jpg, 456-doc.pdf"
             fotos_concatenadas = req.files.map(file => file.filename).join(',');
         }
 
@@ -27,14 +25,32 @@ const registrarTicket = async (req, res) => {
         }
 
         // INSERTAR EN SQL
-        await Ticket.create({
+        // Nota: Guardamos el resultado para obtener datos si es necesario
+        const resultado = await Ticket.create({
             id_usuario: parseInt(id_usuario),
             descripcion: descripcion,
-            // Guardamos la lista de nombres (o null si no hubo nada)
             foto_url: fotos_concatenadas 
         });
 
         console.log("✅ Ticket guardado con archivos:", fotos_concatenadas);
+
+        // --- [NUEVO] ENVIAR CORREOS ---
+        // Intentamos enviar el correo, pero usamos un try/catch interno para que
+        // si el correo falla, el usuario no piense que el ticket no se guardó.
+        try {
+            const datosTicket = {
+                id: "NUEVO", // O resultado.insertId si tu modelo lo devuelve
+                obra: req.body.nombre_obra || "Obra General", 
+                descripcion: descripcion
+            };
+
+            // Enviamos a: 1. El usuario que reporta, 2. Al equipo de TI
+            await sendTicketNotification(datosTicket, correoUsuario, 'ti@aceaperu.com');
+            console.log("📧 Notificaciones enviadas correctamente");
+        } catch (mailErr) {
+            console.error("⚠️ Error al enviar correos (pero el ticket se guardó):", mailErr.message);
+        }
+
         res.status(201).json({ success: true, mensaje: "Ticket registrado con éxito en AceaPerú" });
 
     } catch (err) {

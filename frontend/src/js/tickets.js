@@ -136,20 +136,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("❌ Error: Sesión no encontrada.");
                 return;
             }
+            
+            // [NUEVO] Capturamos el correo del usuario (del input o del storage)
+            const correoUsuario = inputCorreoEmisor ? inputCorreoEmisor.value : localStorage.getItem('usuario_correo');
+            const nombreObra = "Obra AceaPerú"; // Aquí puedes capturar el valor de un input de obra si lo tienes
 
             const descripcion = inputDescripcion ? inputDescripcion.value.trim() : '';
             const formData = new FormData();
-            
+
             formData.append('id_usuario', idEnStorage);
             formData.append('descripcion', descripcion);
 
+            // [NUEVO] Enviamos el correo y la obra al backend
+            formData.append('correo_usuario', correoUsuario); 
+            formData.append('nombre_obra', nombreObra);
+            
             // CAMBIO AQUÍ: Enviar todas las fotos del array, no del input
             archivosSeleccionados.forEach((foto) => {
                 formData.append('evidencia', foto);
             });
 
             try {
-                const response = await fetch('http://localhost:3000/api/tickets/registrar', {
+                const response = await fetch('http://192.168.20.130:3000/api/tickets/registrar', {
                     method: 'POST',
                     body: formData
                 });
