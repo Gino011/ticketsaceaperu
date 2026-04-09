@@ -19,3 +19,8 @@ dist/
 # Editores
 .vscode/
 .idea/
+
+#NOTA
+#Cambiar la ip de la ruta frontend->src->js->tickets.js
+#frotend->src->js->main.js
+#cambiar la IP local por la actual o la del servidor

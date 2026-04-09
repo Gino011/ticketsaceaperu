@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             try {
-                const response = await fetch('http://192.168.20.130:3000/api/tickets/registrar', {
+                const response = await fetch('http://localhost:3000/api/tickets/registrar', {
                     method: 'POST',
                     body: formData
                 });
