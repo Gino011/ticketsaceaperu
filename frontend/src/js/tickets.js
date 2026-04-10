@@ -126,64 +126,87 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Lógica de Envío CORREGIDA
-    if (formTicket) {
-        formTicket.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    // 4. Lógica de Envío CORREGIDA (Con SweetAlert2)
+if (formTicket) {
+    formTicket.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-            const idEnStorage = localStorage.getItem('id_usuario');
-            if (!idEnStorage || idEnStorage === "null") {
-                alert("❌ Error: Sesión no encontrada.");
-                return;
-            }
-            
-            // [NUEVO] Capturamos el correo del usuario (del input o del storage)
-            const correoUsuario = inputCorreoEmisor ? inputCorreoEmisor.value : localStorage.getItem('usuario_correo');
-            const nombreObra = "Obra AceaPerú"; // Aquí puedes capturar el valor de un input de obra si lo tienes
+        const idEnStorage = localStorage.getItem('id_usuario');
+        if (!idEnStorage || idEnStorage === "null") {
+            // [NUEVO] Error de sesión elegante
+            Swal.fire({ icon: 'error', title: 'Sesión no encontrada', text: 'Por favor, vuelve a iniciar sesión.' });
+            return;
+        }
 
-            const descripcion = inputDescripcion ? inputDescripcion.value.trim() : '';
-            const formData = new FormData();
-
-            formData.append('id_usuario', idEnStorage);
-            formData.append('descripcion', descripcion);
-
-            // [NUEVO] Enviamos el correo y la obra al backend
-            formData.append('correo_usuario', correoUsuario); 
-            formData.append('nombre_obra', nombreObra);
-            
-            // CAMBIO AQUÍ: Enviar todas las fotos del array, no del input
-            archivosSeleccionados.forEach((foto) => {
-                formData.append('evidencia', foto);
-            });
-
-            try {
-                const response = await fetch('http://localhost:3000/api/tickets/registrar', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert("✅ " + result.mensaje);
-                    
-                    // --- LIMPIEZA TOTAL ---
-                    formTicket.reset();
-                    archivosSeleccionados = []; // Vaciamos el array
-                    previewContainer.innerHTML = ''; // Borramos miniaturas visuales
-                    previewContainer.classList.add('preview-hidden');
-                    fileContent.style.display = 'flex';
-                    
-                    cargarDatosSesion();
-                } else {
-                    alert("❌ Error: " + result.mensaje);
-                }
-            } catch (error) {
-                console.error("Error al enviar:", error);
-                alert("📡 Error de conexión.");
+        // [NUEVO] Spinner de carga inmediato
+        Swal.fire({
+            title: 'Procesando ticket...',
+            text: 'Enviando información y archivos a AceaPerú',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
         });
-    }
+        
+        const correoUsuario = inputCorreoEmisor ? inputCorreoEmisor.value : localStorage.getItem('usuario_correo');
+        const nombreObra = "Obra AceaPerú"; 
+        const descripcion = inputDescripcion ? inputDescripcion.value.trim() : '';
+        const formData = new FormData();
+
+        formData.append('id_usuario', idEnStorage);
+        formData.append('descripcion', descripcion);
+        formData.append('correo_usuario', correoUsuario); 
+        formData.append('nombre_obra', nombreObra);
+        
+        archivosSeleccionados.forEach((foto) => {
+            formData.append('evidencia', foto);
+        });
+
+        try {
+            const response = await fetch('http://localhost:3000/api/tickets/registrar', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // [NUEVO] Éxito con SweetAlert2
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Registro Exitoso!',
+                    text: result.mensaje,
+                    confirmButtonColor: '#004a99'
+                }).then(() => {
+                    // --- LIMPIEZA TOTAL (se ejecuta después de dar OK) ---
+                    formTicket.reset();
+                    archivosSeleccionados = [];
+                    previewContainer.innerHTML = '';
+                    previewContainer.classList.add('preview-hidden');
+                    fileContent.style.display = 'flex';
+                    cargarDatosSesion();
+                });
+            } else {
+                // [NUEVO] Error del servidor elegante
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un problema',
+                    text: result.mensaje,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        } catch (error) {
+            console.error("Error al enviar:", error);
+            // [NUEVO] Error de conexión elegante
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo contactar con el servidor. Inténtalo más tarde.',
+                confirmButtonColor: '#d33'
+            });
+        }
+    });
+}
 
     cargarDatosSesion();
     actualizarReloj();

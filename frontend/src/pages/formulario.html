@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Tickets - AceaPerú</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/css/formulario.css">
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -14,7 +15,7 @@
     <div class="logo-area">
       <img src="/src/assets/logoaceaperu.png" alt="Logo AceaPerú">
       <div class="divider"></div>
-      <span>Portal de Soporte T.I</span>
+      <span>Sistema de Tickets</span>
     </div>
     <button class="logout-link" onclick="window.location.href='/'">
       <i data-lucide="log-out"></i> <span>Salir del Sistema</span>
@@ -79,9 +80,9 @@
               <input type="file" id="adjunto" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="file-input" multiple>
               
               <div class="file-custom" id="file-content">
-                  <i data-lucide="camera"></i>
+                  <i data-lucide="file-plus"></i>
                   <span>Arrastre o haga clic para subir capturas</span>
-                  <p class="file-hint">JPG, PNG • Máx 5MB</p>
+                  <p class="file-hint">JPG, PNG, PDF, DOC, XLS</p>
               </div>
 
               <div id="preview-container" class="preview-hidden"></div>
@@ -99,7 +100,11 @@
     </div>
   </main>
 
+
   <script type="module" src="/src/js/tickets.js"></script>
   <script>lucide.createIcons();</script>
+
 </body>
+
+
 </html>
