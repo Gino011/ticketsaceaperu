@@ -1,13 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-// Importamos el controlador (fíjate que la ruta sea correcta según tu carpeta)
-const { getHistorialPorUsuario } = require('../controllers/historialController');
+// Importamos ambas funciones del controlador
+const { 
+    getHistorialPorUsuario, 
+    finalizarTicket 
+} = require('../controllers/historialController');
 
 /**
- * Endpoint: GET /api/historial/:id_usuario
- * @description Ruta para obtener el historial de tickets de AceaPerú por ID de usuario
+ * @route   GET /api/historial/:id_usuario
+ * @desc    Obtener tickets activos (activo = 1)
  */
 router.get('/:id_usuario', getHistorialPorUsuario);
+
+/**
+ * @route   PUT /api/historial/finalizar/:id_ticket
+ * @desc    Finalizar ticket (Cambiar activo a 0)
+ */
+router.put('/finalizar/:id_ticket', finalizarTicket);
 
 module.exports = router;
