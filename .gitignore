@@ -24,3 +24,4 @@ dist/
 #Cambiar la ip de la ruta frontend->src->js->tickets.js
 #frotend->src->js->main.js
 #cambiar la IP local por la actual o la del servidor
+#cambiar la IP local por la actual o la del servidor frotend->historial.js

@@ -5,7 +5,7 @@ const path = require('path'); // <-- NUEVO: Para manejar rutas de archivos
 const { poolPromise } = require('./config/db'); 
 const userRoutes = require('./routes/userRoutes'); 
 const ticketRoutes = require('./routes/ticketRoutes'); // <-- NUEVO: Importamos rutas de tickets
-
+const historialRoutes = require('./routes/historialRoutes'); // <-- NUEVO: Importamos rutas de historial
 const app = express();
 
 // Middlewares
@@ -22,7 +22,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // 2. Usar las rutas
 app.use('/api/usuarios', userRoutes); 
 app.use('/api/tickets', ticketRoutes); // <-- NUEVO: Ahora los tickets funcionan en /api/tickets
-
+app.use('/api/historial', historialRoutes);
 // --- RUTA DE PRUEBA DE BASE DE DATOS ---
 app.get('/test-db', async (req, res) => {
     try {
@@ -50,4 +50,5 @@ app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     console.log(`✅ Rutas de usuarios listas en http://localhost:${PORT}/api/usuarios`);
     console.log(`🎫 Rutas de tickets listas en http://localhost:${PORT}/api/tickets`); // <-- NUEVO aviso
+    console.log(`📜 Rutas de historial listas en http://localhost:${PORT}/api/historial`);
 });

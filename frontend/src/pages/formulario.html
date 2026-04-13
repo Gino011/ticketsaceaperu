@@ -8,9 +8,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/css/formulario.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
   
+  <div class="sidebar-acea">
+    <button class="side-btn active" id="nav-nuevo">
+        <i data-lucide="plus-circle"></i>
+        <span class="btn-text">Nuevo Ticket</span>
+    </button>
+
+    <button class="side-btn" id="nav-historial">
+        <i data-lucide="history"></i>
+        <span class="btn-text">Mi Historial</span>
+    </button>
+  </div>
+
   <header class="top-bar">
     <div class="logo-area">
       <img src="/src/assets/logoaceaperu.png" alt="Logo AceaPerú">
@@ -23,88 +37,139 @@
   </header>
 
   <main class="content-area">
-    <div class="form-card">
-      <div class="form-header">
-        <div class="badge">Nuevo Ticket</div>
-        <h2><i data-lucide="file-text"></i> Registrar Incidencia</h2>
-        <p>Complete la información técnica detallada a continuación.</p>
-      </div>
+    
+    <div id="view-nuevo" class="vistas">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="badge">Nuevo Ticket</div>
+            <h2><i data-lucide="file-text"></i> Registrar Incidencia</h2>
+            <p>Complete la información técnica detallada a continuación.</p>
+          </div>
 
-      <form id="ticketForm">
-        <div class="input-row">
-          <div class="field-group">
-            <label>Nombres del Usuario</label>
-            <div class="input-with-icon">
-              <i data-lucide="user"></i>
-              <input type="text" id="nombreUsuario" readonly class="readonly-input">
+          <form id="ticketForm">
+            <div class="input-row">
+              <div class="field-group">
+                <label>Nombres del Usuario</label>
+                <div class="input-with-icon">
+                  <i data-lucide="user"></i>
+                  <input type="text" id="nombreUsuario" readonly class="readonly-input">
+                </div>
+              </div>
+              <div class="field-group">
+                <label>Fecha y Hora (Sincronizada)</label>
+                <div class="input-with-icon">
+                  <i data-lucide="clock"></i>
+                  <input type="text" id="fechaHora" readonly class="readonly-input">
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="field-group">
-            <label>Fecha y Hora (Sincronizada)</label>
-            <div class="input-with-icon">
-              <i data-lucide="clock"></i>
-              <input type="text" id="fechaHora" readonly class="readonly-input">
+
+            <div class="input-row">
+              <div class="field-group">
+                <label>Correo Emisor (Acea Perú)</label>
+                <div class="input-with-icon">
+                  <i data-lucide="at-sign"></i>
+                  <input type="email" id="correoUser" readonly class="readonly-input">
+                </div>
+              </div>
+              <div class="field-group">
+                <label>Correo Destino</label>
+                <div class="input-with-icon">
+                  <i data-lucide="shield-check"></i>
+                  <input type="email" id="correo_destino" readonly class="readonly-input">
+                </div>
+              </div>
             </div>
-          </div>
+
+            <div class="field-group">
+              <label>Descripción de la Incidencia</label>
+              <div class="textarea-wrapper">
+                <textarea id="descripcion" rows="4" placeholder="Describa el error..." required></textarea>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Evidencia Fotográfica</label>
+              <div class="file-upload" id="dropzone">
+                <input type="file" id="adjunto" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="file-input" multiple>
+                <div class="file-custom" id="file-content">
+                    <i data-lucide="file-plus"></i>
+                    <span>Arrastre o haga clic para subir capturas</span>
+                </div>
+                <div id="preview-container" class="preview-hidden"></div>
+              </div>
+            </div>
+
+            <div class="actions-center">
+              <button type="submit" id="btnRegistrar" class="btn-send">
+                <span>ENVIAR TICKET DE SOPORTE</span>
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </form>
+          <p id="ticket-msg"></p>
         </div>
-
-        <div class="input-row">
-          <div class="field-group">
-            <label>Correo Emisor (Acea Perú)</label>
-            <div class="input-with-icon">
-              <i data-lucide="at-sign"></i>
-              <input type="email" id="correoUser" readonly class="readonly-input"   >
-            </div>
-          </div>
-          <div class="field-group">
-                <div class="field-group">
-                    <label>Correo Destino</label>
-                    <div class="input-with-icon">
-                        <i data-lucide="shield-check"></i>
-                        <input type="email" id="correo_destino" readonly class="readonly-input">
+    </div>
+    
+    <div id="view-historial" class="vistas" style="display: none;">
+        <div class="container-fluid p-0">
+            <div class="card shadow-sm border-0">
+                
+                <div class="card-header bg-white py-3 border-bottom">
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="badge bg-light text-secondary border me-2">Historial</span>
                     </div>
+                    <h4 class="card-title mb-1 text-primary">
+                        <i class="bi bi-clock-history"></i> Mis Tickets Reportados
+                    </h4>
+                    <p class="card-text text-muted small">
+                        Consulta y filtra todas las incidencias enviadas al área de soporte.
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    
+                    <div class="input-group mb-4 shadow-sm">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" id="inputBusqueda" class="form-control border-start-0 ps-0" 
+                              placeholder="Buscar por ID, descripción o estado...">
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="text-secondary small">N° DE TICKET</th>
+                                    <th scope="col" class="text-secondary small">FECHA</th>
+                                    <th scope="col" class="text-secondary small">DESCRIPCIÓN</th>
+                                    <th scope="col" class="text-secondary small">EVIDENCIA</th>
+                                    <th scope="col" class="text-secondary small">ESTADO</th>
+                                    <th scope="col" class="text-secondary small">ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-tickets">
+                                </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-        <div class="field-group">
-          <label>Descripción de la Incidencia</label>
-          <div class="textarea-wrapper">
-            <textarea id="descripcion" rows="4" placeholder="Describa el error, mensaje del sistema o requerimiento..." required></textarea>
-          </div>
-        </div>
-
-        <div class="field-group">
-          <label>Evidencia Fotográfica</label>
-          <div class="file-upload" id="dropzone">
-              <input type="file" id="adjunto" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx" class="file-input" multiple>
-              
-              <div class="file-custom" id="file-content">
-                  <i data-lucide="file-plus"></i>
-                  <span>Arrastre o haga clic para subir capturas</span>
-                  <p class="file-hint">JPG, PNG, PDF, DOC, XLS</p>
-              </div>
-
-              <div id="preview-container" class="preview-hidden"></div>
-          </div>
-        </div>
-
-        <div class="actions-center">
-          <button type="submit" id="btnRegistrar" class="btn-send">
-            <span>ENVIAR TICKET DE SOPORTE</span>
-            <i data-lucide="chevron-right"></i>
-          </button>
-        </div>
-      </form>
-      <p id="ticket-msg"></p>
     </div>
+</div>
+
+
+</div>
+
   </main>
 
-
   <script type="module" src="/src/js/tickets.js"></script>
-  <script>lucide.createIcons();</script>
+  <script src="/src/js/historial.js"></script> 
+  <script>
+    lucide.createIcons(); 
+  </script>
 
 </body>
-
-
 </html>

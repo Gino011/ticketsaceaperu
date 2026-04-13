@@ -191,7 +191,7 @@ if (formTicket) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Hubo un problema',
-                    text: result.mensaje,
+                    text: 'Demasiados archivos enviados o nombre de los archivos muy largos'/*result.mensaje*/,
                     confirmButtonColor: '#d33'
                 });
             }

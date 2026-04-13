@@ -44,7 +44,7 @@ const sendTicketNotification = async (ticketData, userEmail) => {
                         <td style="padding: 10px; border-bottom: 1px solid #eee; color: #004a99; font-weight: bold">#${id_ticket}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Nombre del usuario</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight: bold;">Nombre del usuario:</td>
                         <td style="padding: 10px; border-bottom: 1px solid #eee;">${nombre_usuario}</td>
                     </tr>
                     <tr>
@@ -73,7 +73,7 @@ const sendTicketNotification = async (ticketData, userEmail) => {
     `;
 
     const mailOptions = {
-        from: `"Soporte AceaPerú" <${process.env.EMAIL_USER}>`,
+        from: `"Sistema de Tickets" <${process.env.EMAIL_USER}>`,
         html: htmlContent,
         attachments: [{
             filename: 'logoaceaperu.png',
@@ -87,14 +87,14 @@ const sendTicketNotification = async (ticketData, userEmail) => {
         await transporter.sendMail({
             ...mailOptions,
             to: userEmail,
-            subject: `Confirmación de Ticket #${id_ticket} - ${obra}`
+            subject: `Ticket Registrado #${id_ticket} - ${nombre_usuario} `
         });
 
         // 2. Enviar copia al equipo de TI
         await transporter.sendMail({
             ...mailOptions,
             to: 'ti@aceaperu.com', // Cambia esto al correo real de TI
-            subject: `🚨 NUEVO TICKET: #${id_ticket} | ${obra} | ${nombre_usuario}`
+            subject: `🚨 NUEVO TICKET: #${id_ticket} - ${nombre_usuario}`
         });
 
         console.log(`✅ Correos enviados para el ticket #${id_ticket}`);
