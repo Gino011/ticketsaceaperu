@@ -1,27 +1,29 @@
-# Dependencias (NUNCA se suben a GitHub)
+# --- DEPENDENCIAS ---
 node_modules/
 backend/node_modules/
 frontend/node_modules/
 
-# Configuración sensible (Contraseñas de SQL)
+# --- CONFIGURACIÓN SENSIBLE (Secretos) ---
 .env
 backend/.env
+frontend/.env
+credentials/
 
-# Archivos subidos por los usuarios
+# --- DATOS DE N8N ---
+# Bloqueamos la carpeta completa para evitar fugas de seguridad
+n8n_data/
+
+# --- ARCHIVOS DE USUARIO ---
 backend/uploads/*
 !backend/uploads/.gitkeep
 
-# Logs y temporales
-npm-debug.log*
+# --- SYSTEM & IDE ---
 .DS_Store
-dist/
-
-# Editores
+Thumbs.db
 .vscode/
 .idea/
+npm-debug.log*
 
-#NOTA
-#Cambiar la ip de la ruta frontend->src->js->tickets.js
-#frotend->src->js->main.js
-#cambiar la IP local por la actual o la del servidor
-#cambiar la IP local por la actual o la del servidor frotend->historial.js
+# --- BUILD OUTPUT ---
+dist/
+build/

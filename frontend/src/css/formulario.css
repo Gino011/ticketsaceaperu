@@ -2,29 +2,32 @@
    VARIABLES Y CONFIGURACIÓN BASE
    ========================================= */
 :root {
-  --primary: #0056b3;
-  --primary-hover: #004494;
-  --primary-light: #eef4ff;
-  --success: #10b981;
-  --danger: #e11d48;
-  --text-dark: #1e293b;
+  --primary: #2563eb;        /* azul más moderno */
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+
+  --success: #22c55e;        /* verde más vivo */
+  --danger: #f43f5e;         /* rojo más vibrante */
+
+  --text-dark: #0f172a;      /* más profundo para mejor legibilidad */
   --text-light: #64748b;
-  --border: #e2e8f0;
-  --bg-body: #f8fafc;
+
+  --border: #e5e7eb;         /* más neutro */
+  --bg-body: #f9fafb;        /* fondo más suave */
   --white: #ffffff;
 }
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Crucial para alineación exacta */
+  box-sizing: border-box;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-  background-color: var(--bg-body);
+  background: linear-gradient(180deg, #98cdff 0%, #d0dbff 100%);
   color: var(--text-dark);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* =========================================
